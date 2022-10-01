@@ -10,6 +10,8 @@ class ChatComponent extends Component
 
     public $search;
 
+    public $contactChat,$chat;
+
     //Propiedad computada
     public function getContactsProperty(){
 
@@ -24,6 +26,23 @@ class ChatComponent extends Component
                     });
                 })
                 ->get() ?? [];
+    }
+
+    public function open_chat_contact(Contact $contact){
+
+        $chat = auth()->user()->chats()
+        ->whereHas('users',function($query) use ($contact){
+            $query->where('user_id',$contact->contact_id);
+        })
+        ->has('users',2)
+        ->first();
+
+        if($chat){
+            $this->chat = $chat;
+        }else{
+            $this->contactChat=$contact;
+        }
+
     }
 
     public function render()
