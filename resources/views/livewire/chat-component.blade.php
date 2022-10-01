@@ -60,8 +60,8 @@
                 <div class="h-[calc(100vh-11rem)] overflow-auto">
                     {{-- {{ El con tenido de nuestro chat }} --}}
                 </div>
-                <form class="bg-gray-100 h-16 flex items-center px-4">
-                    <x-jet-input type="text" class="flex-1" placeholder="Escriba un mensaje aqui" />
+                <form class="bg-gray-100 h-16 flex items-center px-4" wire:submit.prevent="sendMessage()" >
+                    <x-jet-input wire:model="bodyMessage" type="text" class="flex-1" placeholder="Escriba un mensaje aqui" />
                     <button class="flex-shrink-0 ml-4 text-2xl text-gray-700">
                         <i class="fas fa-share"></i>
                     </button>
