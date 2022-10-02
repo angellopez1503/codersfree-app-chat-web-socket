@@ -44,15 +44,26 @@
             @if ($contactChat || $chat)
                 <div class="bg-gray-100 h-16 flex items-center px-3">
                     <figure>
-                        <img class="w-10 h-10 rounded-full object-cover object-center" src="{{ $contactChat->user->profile_photo_url }}" alt="{{ $contactChat->name }}">
+                        @if ($chat)
+                            <img class="w-10 h-10 rounded-full object-cover object-center" src="{{ $chat->image }}"
+                                alt="{{ $chat->name }}">
+                        @else
+                            <img class="w-10 h-10 rounded-full object-cover object-center"
+                                src="{{ $contactChat->user->profile_photo_url }}" alt="{{ $contactChat->name }}">
+                        @endif
+
                     </figure>
 
                     <div class="ml-4">
                         <p class="text-gray-800">
-                            {{ $contactChat->name }}
+                            @if ($chat)
+                                {{ $chat->name }}
+                            @else
+                                {{ $contactChat->name }}
+                            @endif
                         </p>
                         <p class="text-green-500 text-xs">
-                           Online
+                            Online
                         </p>
                     </div>
 
@@ -60,8 +71,9 @@
                 <div class="h-[calc(100vh-11rem)] overflow-auto">
                     {{-- {{ El con tenido de nuestro chat }} --}}
                 </div>
-                <form class="bg-gray-100 h-16 flex items-center px-4" wire:submit.prevent="sendMessage()" >
-                    <x-jet-input wire:model="bodyMessage" type="text" class="flex-1" placeholder="Escriba un mensaje aqui" />
+                <form class="bg-gray-100 h-16 flex items-center px-4" wire:submit.prevent="sendMessage()">
+                    <x-jet-input wire:model="bodyMessage" type="text" class="flex-1"
+                        placeholder="Escriba un mensaje aqui" />
                     <button class="flex-shrink-0 ml-4 text-2xl text-gray-700">
                         <i class="fas fa-share"></i>
                     </button>
