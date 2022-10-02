@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Chat;
 use App\Models\Contact;
+use App\Models\Message;
 use Livewire\Component;
 
 class ChatComponent extends Component
@@ -31,6 +32,12 @@ class ChatComponent extends Component
                 ->get() ?? [];
     }
 
+    public function getMessagesProperty(){
+        // return $this->chat ? Message::where('chat_id',$this->chat->id)->get() : [];
+        return $this->chat ? $this->chat->messages()->get() : [];
+
+    }
+
 
    //Metodos
    public function open_chat_contact(Contact $contact){
@@ -44,8 +51,10 @@ class ChatComponent extends Component
 
         if($chat){
             $this->chat = $chat;
+            $this->reset('contactChat','bodyMessage');
         }else{
             $this->contactChat=$contact;
+            $this->reset('chat','bodyMessage');
         }
 
     }
