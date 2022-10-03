@@ -10,6 +10,7 @@ use Livewire\Component;
 
 use Illuminate\Support\Facades\Notification;
 
+
 class ChatComponent extends Component
 {
 
@@ -60,7 +61,7 @@ class ChatComponent extends Component
 
     }
 
-    public function getUsersNotificationsProperty(){ 
+    public function getUsersNotificationsProperty(){
         return $this->chat ? $this->chat->users->where('id','!=',auth()->id()) : [];
     }
 
@@ -108,7 +109,7 @@ class ChatComponent extends Component
         ]);
 
         Notification::send($this->users_notifications,new NewMessage($this->chat));
-        
+
 
         $this->reset('bodyMessage','contactChat');
 
