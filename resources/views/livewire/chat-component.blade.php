@@ -11,31 +11,52 @@
                     placeholder="Busque un chat o inicie uno nuevo" />
             </div>
             <div class="h-[calc(100vh-10.5rem)] overflow-auto border-t border-gray-200">
-                <div class="px-4 py-3">
-                    <h2 class="text-teal-600 text-lg mb-4">Contactos</h2>
 
-                    <ul class="space-y-4">
-                        @forelse ($this->contacts as $contact)
-                            <li class="cursor-pointer" wire:click="open_chat_contact({{ $contact }})">
-                                <div class="flex">
-                                    <figure class="flex">
-                                        <img class="h-12 w-12 object-cover object-center rounded-full"
-                                            src="{{ $contact->user->profile_photo_url }}" alt="{{ $contact->name }}">
-                                    </figure>
-                                    <div class="flex-1 ml-5 border-b border-gray-200">
-                                        <p class="text-gray-800">
-                                            {{ $contact->name }}
-                                        </p>
-                                        <p class="text-gray-600 text-xs">
-                                            {{ $contact->user->email }}
-                                        </p>
+                @if ($this->chats->count() == 0 || $search)
+                    <div class="px-4 py-3">
+                        <h2 class="text-teal-600 text-lg mb-4">Contactos</h2>
+
+                        <ul class="space-y-4">
+                            @forelse ($this->contacts as $contact)
+                                <li class="cursor-pointer" wire:click="open_chat_contact({{ $contact }})">
+                                    <div class="flex">
+                                        <figure class="flex">
+                                            <img class="h-12 w-12 object-cover object-center rounded-full"
+                                                src="{{ $contact->user->profile_photo_url }}"
+                                                alt="{{ $contact->name }}">
+                                        </figure>
+                                        <div class="flex-1 ml-5 border-b border-gray-200">
+                                            <p class="text-gray-800">
+                                                {{ $contact->name }}
+                                            </p>
+                                            <p class="text-gray-600 text-xs">
+                                                {{ $contact->user->email }}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        @empty
-                        @endforelse
-                    </ul>
-                </div>
+                                </li>
+                            @empty
+                            @endforelse
+                        </ul>
+                    </div>
+                @else
+                    @foreach ($this->chats as $chatItem)
+                    <div wire:key="chats-{{ $chatItem->id }}" wire:click="open_chat({{$chatItem}})"  class="flex items-center {{ $chat && $chat->id == $chatItem->id ? 'bg-gray-200' : 'bg-white' }} hover:bg-gray-100 cursor:pointer px-3">
+                        <figure>
+                            <img src="{{ $chatItem->image }}" alt="{{ $chatItem->name }}" class="h-12 w-12 object-cover object-center rounded-full" >
+                        </figure>
+                        <div class="ml-4 flex-1 py-4 border-b border-gray-200">
+                            <p>
+                                {{ $chatItem->name}}
+                            </p>
+                            <p class="text-xs">
+                                12:45 pm
+                            </p>
+                        </div>
+                    </div>
+                    @endforeach
+                @endif
+
             </div>
 
         </div>
@@ -71,14 +92,14 @@
                 <div class="h-[calc(100vh-11rem)] px-3 py-2 overflow-auto">
                     {{-- {{ El con tenido de nuestro chat }} --}}
                     @foreach ($this->messages as $message)
-                    <div class="flex justify-end mb-2">
-                        <div class="rounded px-3 py-2 bg-green-100">
-                            <p class="text-sm" >{{ $message->body }}</p>
-                            <p class="text-right text-xs mt-1 text-gray-600">
-                                {{ $message->created_at->format('d-m-y h:i: A')}}
-                            </p>
+                        <div class="flex justify-end mb-2">
+                            <div class="rounded px-3 py-2 bg-green-100">
+                                <p class="text-sm">{{ $message->body }}</p>
+                                <p class="text-right text-xs mt-1 text-gray-600">
+                                    {{ $message->created_at->format('d-m-y h:i: A') }}
+                                </p>
+                            </div>
                         </div>
-                    </div>
                     @endforeach
                 </div>
                 <form class="bg-gray-100 h-16 flex items-center px-4" wire:submit.prevent="sendMessage()">

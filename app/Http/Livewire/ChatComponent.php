@@ -38,6 +38,12 @@ class ChatComponent extends Component
 
     }
 
+    public function getChatsProperty(){
+
+        return auth()->user()->chats()->get() ;
+
+    }
+
 
    //Metodos
    public function open_chat_contact(Contact $contact){
@@ -51,11 +57,18 @@ class ChatComponent extends Component
 
         if($chat){
             $this->chat = $chat;
-            $this->reset('contactChat','bodyMessage');
+            $this->reset('contactChat','bodyMessage','search');
         }else{
             $this->contactChat=$contact;
-            $this->reset('chat','bodyMessage');
+            $this->reset('chat','bodyMessage','search');
         }
+
+    }
+
+    public function open_chat(Chat $chat){
+
+        $this->chat = $chat;
+        $this->reset('contactChat','bodyMessage');
 
     }
 
