@@ -47,6 +47,15 @@ class Chat extends Model
 
     }
 
+    public function lastMessageAt(): Attribute
+    {
+        return new Attribute(
+            get:function(){ 
+                return $this->messages->last()->created_at;
+            }
+        );
+    }
+
     //Relacion uno a muchos
     public function messages(){
         return $this->hasMany(Message::class);

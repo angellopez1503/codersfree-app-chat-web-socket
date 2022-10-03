@@ -41,27 +41,31 @@
                     </div>
                 @else
                     @foreach ($this->chats as $chatItem)
-                    <div wire:key="chats-{{ $chatItem->id }}" wire:click="open_chat({{$chatItem}})"  class="flex items-center {{ $chat && $chat->id == $chatItem->id ? 'bg-gray-200' : 'bg-white' }} hover:bg-gray-100 cursor:pointer px-3">
-                        <figure>
-                            <img src="{{ $chatItem->image }}" alt="{{ $chatItem->name }}" class="h-12 w-12 object-cover object-center rounded-full" >
-                        </figure>
-                        <div class="ml-4 flex-1 py-4 border-b border-gray-200">
-                            <p>
-                                {{ $chatItem->name}}
-                            </p>
-                            <p class="text-xs">
-                                12:45 pm
-                            </p>
+                        <div wire:key="chats-{{ $chatItem->id }}" wire:click="open_chat({{ $chatItem }})"
+                            class="flex items-center justify-between {{ $chat && $chat->id == $chatItem->id ? 'bg-gray-200' : 'bg-white' }} hover:bg-gray-100 cursor-pointer px-3">
+                            <figure>
+                                <img src="{{ $chatItem->image }}" alt="{{ $chatItem->name }}"
+                                    class="h-12 w-12 object-cover object-center rounded-full">
+                            </figure>
+                            <div class="w-[calc(100%-4rem)] py-4 border-b border-gray-200">
+                                <div class="flex justify-between items-center">
+                                    <p>
+                                        {{ $chatItem->name }}
+                                    </p>
+                                    <p class="text-xs">
+                                        {{ $chatItem->last_message_at->format('d-m-y h:i: A') }}
+                                    </p>
+                                </div>
+                                <p class="text-sm text-gray-700 mt-1 truncate">
+                                    {{ $chatItem->messages->last()->body }}
+                                </p>
+                            </div>
                         </div>
-                    </div>
                     @endforeach
                 @endif
-
             </div>
-
         </div>
         <div class="col-span-2">
-
             @if ($contactChat || $chat)
                 <div class="bg-gray-100 h-16 flex items-center px-3">
                     <figure>
@@ -87,7 +91,6 @@
                             Online
                         </p>
                     </div>
-
                 </div>
                 <div class="h-[calc(100vh-11rem)] px-3 py-2 overflow-auto">
                     {{-- {{ El con tenido de nuestro chat }} --}}
