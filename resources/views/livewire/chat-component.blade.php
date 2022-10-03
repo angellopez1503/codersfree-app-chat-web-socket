@@ -95,10 +95,10 @@
                 <div class="h-[calc(100vh-11rem)] px-3 py-2 overflow-auto">
                     {{-- {{ El con tenido de nuestro chat }} --}}
                     @foreach ($this->messages as $message)
-                        <div class="flex justify-end mb-2">
-                            <div class="rounded px-3 py-2 bg-green-100">
+                        <div class="flex {{ $message->user_id ==auth()->id() ? 'justify-end' : '' }} mb-2">
+                            <div class="rounded px-3 py-2 {{ $message->user_id ==auth()->id() ? 'bg-green-100' : 'bg-gray-200' }}">
                                 <p class="text-sm">{{ $message->body }}</p>
-                                <p class="text-right text-xs mt-1 text-gray-600">
+                                <p class="{{ $message->user_id ==auth()->id() ? 'text-right' : '' }} text-xs mt-1 text-gray-600">
                                     {{ $message->created_at->format('d-m-y h:i: A') }}
                                 </p>
                             </div>
